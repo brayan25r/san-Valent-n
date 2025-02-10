@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('img/corazones.jpg.jpg') no-repeat center center/cover;
+            text-align: center;
+            font-family: 'Georgia', serif;
+            color: white;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+            max-width: 700px;
+        }
+        h1 {
+            font-size: 2.2em;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .image-container {
+            margin-top: 15px;
+        }
+        .image-container img {
+            width: 200px;
+            height: auto;
+            animation: bounce 1s infinite alternate;
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: #28a745;
+            color: white;
+        }
+        .no {
+            background-color: #dc3545;
+            color: white;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        @keyframes fall {
+            from { transform: translateY(-100px); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+        .heart {
+            position: fixed;
+            color: red;
+            font-size: 2rem;
+            animation: fall 3s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- AUDIO (prueba con controls primero) -->
+    <audio id="romanticSong" src="musica/romantica.mp3"></audio>
+
+    <div class="container">
+        <h1>¡La Gran Pregunta!</h1>
+        <h2>Después de analizar los hechos, recopilar datos y comprobar la química innegable entre nosotros...</h2>
+        <p style="font-size: 2em; font-weight: bold;">¿Quieres ser mi <span style="color: red; font-style: italic;">San Valentín</span>?</p>
+
+        <div class="image-container">
+            <img id="changingImage" src="img/gato0.gif" alt="Imagen romántica">
+        </div>
+        <div class="buttons">
+            <button class="yes" onclick="sayYes()">Sí 💖</button>
+            <button class="no" onclick="changeMessage()">No 💔</button>
+        </div>
+    </div>
+    
+    <script>
+        let messages = [
+            "Te prometo que será inolvidable ❤️",
+            "Piénsalo de nuevo... 🥺",
+            "Vamos, atrévete a decir que sí 💘",
+            "No dejes que el miedo te detenga 💓",
+            "Di que sí por favor 🥰"
+        ];
+        
+        let images = [
+            "img/gato2.gif",
+            "img/gato4.gif",
+            "img/gato3.gif",
+            "img/gato5.gif",
+            "img/gato1.gif"
+        ];
+
+        let currentMessage = 0;
+
+        function sayYes() {
+            let audio = document.getElementById("romanticSong");
+
+            // Asegurar que el audio cargó
+            if (!audio.paused) {
+                console.log("La música ya está sonando.");
+                return;
+            }
+
+            audio.play().then(() => {
+                console.log("Música reproduciéndose.");
+            }).catch(error => {
+                console.log("El navegador bloqueó la reproducción automática:", error);
+            });
+
+            // Mostrar mensaje final con corazones flotando
+            document.body.innerHTML = "<h1>¡Sabía que dirías que sí! 💕😍</h1><p>Te adoro mucho, mi amor ❤️</p>";
+            
+            // Agregar corazones flotando
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(heart);
+            }
+        }
+
+        function changeMessage() {
+            if (currentMessage < messages.length) {
+                document.querySelector(".no").innerText = messages[currentMessage];
+                document.getElementById("changingImage").src = images[currentMessage];
+                currentMessage++;
+            }
+        }
+    </script>
+</body>
+</html>
